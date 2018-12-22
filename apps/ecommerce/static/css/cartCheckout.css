@@ -1,0 +1,28 @@
+#main-content {
+    margin-left: 17rem;
+    margin-top: 2rem;
+}
+table {
+    font-size: 1.2em;
+}   
+.size {
+    font-size: 1.2em;
+    margin-left: 2rem;
+}
+.total {
+    float: right;
+    margin-right: 7rem;
+    margin-top: 1rem;
+}
+.summary {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 4rem;
+    text-align: center;
+}
+.row {
+    margin: 0;
+}
+p {
+    font-size: 1.2em;
+}

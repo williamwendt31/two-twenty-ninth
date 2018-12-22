@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>229th Admin Dashboard</title>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        {% load static %}
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize/css/materialize.css' %}"  media="screen,projection"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/adminDashStyle.css' %}" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <nav>
+                <div class="nav-wrapper cyan darken-4">
+                    <a href="/admin/dashboard/orders" class="brand-logo">229th Dashboard</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li class="active"><a class="link" href="/admin/dashboard/orders">Orders</a></li>
+                        <li><a class="link" href="/admin/dashboard/products">Products</a></li>
+                        <li><a class="linkwaves-effect waves-light btn red darken-4 " href="/admin/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="main-content">
+                <table class="striped centered">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Shipping Address</th>
+                            <th>Total</th>
+                            <th class="wi">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>
+                                <a href="/admin/dashboard/orders/show/{{ order.id }}">{{ order.id }}</a>
+                            </td>
+                            <td>{{ order.shipping_info.first_name }} {{ order.shipping_info.last_name }}</td>
+                            <td>{{ order.created_at }}</td>
+                            <td>{{ order.shipping_info.address.address }}</td>
+                            <td>{{ order.total }}</td>
+                            <td>
+                                <select class="order_status" name="order_status">
+                                    <option value="in_process" selected>Order in Process</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <script type="text/javascript" src="{% static 'css/materialize/js/materialize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/orders.js' %}"></script>
+    </body>
+</html>

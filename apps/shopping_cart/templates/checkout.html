@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Checkout</title>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        {% load static %}
+        {% load mathfilters %}
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize/css/materialize.css' %}"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/cartCheckout.css' %}" />        
+    </head>
+    <body>
+        <div id="container">            
+            <ul id="nav-mobile" class="sidenav sidenav-fixed">
+                <a href="/">
+                    <li class="logo">
+                        <img id="logo" src="{% static 'images/logo.jpg' %}" alt="229 Logo">
+                    </li>
+                </a>
+                <li>
+                    <div class="divider"></div>
+                    <input type="text" class="search" placeholder="Search">
+                    <i class="material-icons searching">search</i>
+                    <div class="divider"></div>
+                </li>
+                <li>
+                    <ul class="collapsible">
+                        {% for category in categories %}
+                        <li>
+                            <div class="collapsible-header waves-effect waves-teal">
+                                <strong class="biggie">{{ category.name }}</strong>
+                            </div>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li><a href="/products/category/{{ category.id }}">All</a></li>
+                                    {% for type in category.types.all %}
+                                    <li><a href="/products/category/{{ category.id }}/type/{{ type.id }}">{{ type.name }} ({{ type.product.count }})</a></li>
+                                    {% endfor  %}
+                                </ul>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        <li>
+                            <div class="collapsible-header waves-effect waves-teal">
+                                <a id="cart" href="/shopping-cart">
+                                    <i class="material-icons cart">shopping_cart</i>
+                                    <strong class="biggie">Shopping Cart ({{ shopping_cart.count }})</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div id="main-content">
+                <table class="striped centered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in shopping_cart %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="total">
+                    <a class="btn waves-effect waves-light red darken-4" href="/">Continue Shopping
+                        <i class="material-icons left">chevron_left</i>
+                    </a>
+                    <span class="size">Total: ${{ cart_total }}</span>
+                </div>
+                <div class="summary">
+                    <div class="row">
+                        <div class="col s6">
+                            <h5>Shipping Information</h5>
+                            <p>{{ customer_shipping.first_name }} {{ customer_shipping.last_name }}</p>
+                        </div>
+                        <div class="col s6">
+                            <h5>Billing Information</h5>
+                            <p>{{ customer_billing.first_name }} {{ customer_billing.last_name }}</p>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col s6">
+                            <p>{{ customer_shipping.address.address }} {{ customer_shipping.address.address2 }}</p>
+                        </div>
+                        <div class="col s6">
+                            <p>{{ customer_billing.address.address }} {{ customer_billing.address.address2 }}</p>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col s6">
+                            <p>{{ customer_shipping.address.city }}, {{ customer_shipping.address.state.name }}, {{ customer_shipping.address.zipcode }}</p>
+                        </div>
+                        <div class="col s6">
+                            <p>{{ customer_billing.address.city }}, {{ customer_billing.address.state.name }}, {{ customer_billing.address.zipcode }}</p>
+                        </div>
+                    </div>
+                </div>
+                <form action="/shopping-cart/process-payment" method="POST" class="summary">
+                    {% csrf_token %}
+                    <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="pk_test_L53x5NW6SKB7SqYIFtzrjItV"
+                        data-amount="{{ cart_total|mul:100 }}"
+                        data-name="229th"
+                        data-description="Steezy"
+                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                        data-locale="auto">
+                    </script>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript" src="{% static 'css/materialize/js/materialize.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>

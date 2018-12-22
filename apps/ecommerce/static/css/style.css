@@ -1,0 +1,82 @@
+.logo {
+    margin: 2rem 0;
+    text-align: center;
+}
+.sidenav-fixed {
+    overflow: auto;
+    transform: translateX(0px);
+    width: 14rem !important;
+}
+#logo {
+    height: 9rem;
+    width: 9rem;
+}
+input.search {
+    border: none !important;
+    width: 80% !important;
+    font-size: 1.1em !important;
+    margin: auto !important;
+    margin-left: 0.5rem !important;
+}
+i.searching {
+    margin-top: 1rem !important;
+    width: 10%;
+}
+.biggie {
+    font-size: 1em;
+}
+li {
+    margin-bottom: 0.75rem !important;
+}
+#cart {
+    color: black;
+}
+i.cart {
+    margin-top: 0 !important;
+    margin-right: 0.5rem !important;
+    vertical-align: top;
+}
+.pagination {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#main-content {
+    margin-left: 14rem;
+    text-align: center;
+}
+.card-title {
+    font-size: 1.2em !important;
+}
+.success {
+    display: block;
+    color: green;
+    font-size: 1.2em;
+    text-align: center;
+}
+select#sort {
+    border: none !important;
+}
+.card {
+    height: 20% !important;
+    width: 15% !important;
+    margin: 2rem !important;
+    display: inline-block;
+    border: none !important;
+    vertical-align: top;
+}
+.price {
+    background-color: black;
+    opacity: 0.7;
+    color: white;
+    height: 0.2rem;
+    width: 100%;
+    padding: 0 !important;
+    padding-top: 0.7rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.white-font {
+    color: white !important;
+}
+

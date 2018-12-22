@@ -1,0 +1,16 @@
+#wrapper {
+    width: 50rem;
+    margin: 0 auto;
+}
+form {
+    margin-top: 15rem;
+}
+input {
+    margin-left: 0.7rem;
+}
+button {
+    margin-left: 1rem;
+}
+.row {
+    margin: 1.5rem 0;
+}

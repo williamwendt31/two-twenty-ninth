@@ -1,0 +1,39 @@
+a {
+    margin: 0 1rem;
+}
+.link {
+    font-size: 1.2em !important;
+}
+#main-content {
+    margin: 0 2rem;
+}
+th {
+    font-size: 1.2em;
+}
+.search {
+    width: 50%;
+    display: inline-block;
+    margin-left: 2rem;
+}
+#search {
+    border: none !important;
+    margin-left: 3rem;
+}
+.green {
+    float: right;
+    margin-top: 1.5rem;
+    margin-right: 2rem;
+}
+.x {
+    margin-top: 1rem;
+}
+.pic {
+    height: 5rem;
+    width: 6rem;
+}
+table.striped {
+    text-align: center !important;
+}
+ul.pagination {
+    text-align: center !important;
+}
