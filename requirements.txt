@@ -2,13 +2,13 @@ bcrypt==3.1.4
 certifi==2018.8.24
 cffi==1.11.5
 chardet==3.0.4
-Django==2.1.1
+Django==2.1.4
 django-mathfilters==0.4.0
 idna==2.7
 Pillow==5.2.0
 pycparser==2.19
 pytz==2018.5
-requests==2.19.1
+requests==2.21.0
 six==1.11.0
 stripe==2.10.0
 urllib3==1.23
