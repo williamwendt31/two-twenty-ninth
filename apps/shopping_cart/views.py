@@ -10,6 +10,7 @@ stripe.api_key = "sk_test_7uJwPysNuUKFf1rD3B23imAi"
 def cart(request):
     if 'customer_id' not in request.session:
         request.session['customer_id'] = Shopping_Cart.objects.get_create_customer_id()
+
     categories = Product_Category.objects.all()
     cart =  Shopping_Cart.objects.filter(customer_id=request.session['customer_id'])
     cart_total = 0
@@ -38,6 +39,7 @@ def cart(request):
 def add_product_to_cart(request):
     if 'customer_id' not in request.session:
         request.session['customer_id'] = Shopping_Cart.objects.get_create_customer_id()
+
     if request.method == 'POST':
         Shopping_Cart.objects.add_to_cart(request.session['customer_id'], request.POST['product_id'], request.POST['product_quantity'])
     return redirect(f"/products/show/{request.POST['product_id']}")
@@ -51,6 +53,7 @@ def remove_from_cart(request, cart_id):
 def process_info(request):
     if 'customer_id' not in request.session:
         request.session['customer_id'] = Shopping_Cart.objects.get_create_customer_id()
+    
     if request.method == 'POST':
         errors = Shopping_Cart.objects.customer_info_validation(request.POST)
         if len(errors):
