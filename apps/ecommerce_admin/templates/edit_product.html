@@ -13,12 +13,23 @@
                 width: 65rem;
                 margin: 0 auto;
             }
+
+            .errors {
+                color: red;
+            }
         </style>
     </head>
     <body>
         <div id="wrapper">
             <h5>Edit a Product</h5>
-            <form action="/admin/process_edit" method="POST" enctype="multipart/form-data">
+            <form action="/admin/process_edit" method="POST">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} errors"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 {% csrf_token %}
                 <div class="row">
                     <div class="input-field col s7">
@@ -51,7 +62,14 @@
                         <label>Category</label>
                     </div>
                     <div class="input-field col s6">
-                        <select name="prod_type" id="prod_type" disabled>
+                        <select name="prod_type" id="prod_type">
+                            {% for type in product.product_category.types.all %}
+                            {% if type.name == product.product_type.name %}
+                            <option value="{{ type.name }}" selected>{{ type.name }}</option>
+                            {% else %}
+                            <option value="{{ type.name }}">{{ type.name }}</option>
+                            {% endif %}
+                            {% endfor %}
                         </select>
                         <label>Type</label>
                     </div>
@@ -67,18 +85,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="file-field input-field">
-                        <div class="btn cyan darken-4">
-                            <span>Add an Image File</span>
-                            <input name="image_files" type="file" multiple>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                        </div>
+                    <div class="input-field col s12">
+                        <input name="image" id="image" type="text" class="validate" value="{{ product.image }}">
+                        <label for="image">Image Path: </label>
                     </div>
-                </div>
-                <div class="row">
-                    
                 </div>
                 <div class="row">
                     <a class="btn waves-effect waves-light red darken-4" href="/admin/dashboard/products">Go Back

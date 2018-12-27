@@ -1,7 +1,7 @@
 {% for product in products|dictsort:"price" %}
 <div class="card z-depth-0">
     <div class="card-image waves-effect waves-block waves-light">
-        <a href="/products/show/{{ product.id }}"><img class="activator product" src="/media/{{ product.product_images.first.image }}" alt="product_image"></a>
+        <a href="/products/show/{{ product.id }}"><img class="activator product" src="{{ product.image }}" alt="product_image"></a>
         <div class="product_price">
             <span class="card-title price">${{ product.price }}</span>
         </div>

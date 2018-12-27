@@ -40,7 +40,7 @@
                     <tbody>
                         {% for product in products %}
                         <tr>
-                            <td><img class="pic" src="/media/{{ product.product_images.first.image }}"></td>
+                            <td><img class="pic" src="{{ product.image }}"></td>
                             <td>{{ product.id }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.inventory_count }}</td>

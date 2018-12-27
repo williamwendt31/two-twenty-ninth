@@ -22,4 +22,4 @@ urlpatterns = [
     path('', include('apps.ecommerce.urls')),
     path('admin/', include('apps.ecommerce_admin.urls')),
     path('shopping-cart/', include('apps.shopping_cart.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

@@ -86,20 +86,28 @@ def add_product(request):
 def process_add(request):
     if 'user_id' not in request.session:
         return redirect('/admin/logout')
+
     if request.method == 'POST':
-        errors = Product.objects.input_validation(request.POST, request.FILES)
+        errors = Product.objects.input_validation(request.POST)
         if len(errors):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('/admin/dashboard/products/add')
-        Product.objects.add_product(request.POST, request.FILES)
+        Product.objects.add_product(request.POST)
     return redirect('/admin/dashboard/products')
 
 # process editing product
 def process_edit(request):
     if 'user_id' not in request.session:
         return redirect('/admin/logout')
+
     if request.method == 'POST':
+        errors = Product.objects.input_validation(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(f"/admin/dashboard/products/edit/{request.POST['product_id']}")
+
         Product.objects.edit_product(request.POST)
     return redirect('/admin/dashboard/products')
 

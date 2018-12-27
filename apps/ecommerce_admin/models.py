@@ -20,6 +20,11 @@ class AdminManager(models.Manager):
             errors['invalid'] = "Invalid Credentials"
         return errors
 
+    def register_user(self):
+        hashed_password = bcrypt.hashpw('user'.encode('utf-8'), bcrypt.gensalt()).decode()
+        Admin_User.objects.create(first_name="William", last_name="Wendt", email="user", pwd_hash=hashed_password)
+        return
+
 # manage products
 class ProductManager(models.Manager):
     def get_category_and_type(self, postData):
@@ -37,12 +42,12 @@ class ProductManager(models.Manager):
         }
         return prod_cat_type
 
-    def input_validation(self, postData, imageFiles):
+    def input_validation(self, postData):
         errors = {}
         prod_cat_type = Product.objects.get_category_and_type(postData)
         category = prod_cat_type['category']
         prod_type = prod_cat_type['type']
-        if not len(postData['prod_name']) or not len(postData['price']) or not len(postData['desc']) or not len(category) or not len(prod_type) or not len(imageFiles): #if any are empty
+        if not len(postData['prod_name']) or not len(postData['price']) or not len(postData['desc']) or not len(category) or not len(prod_type) or not len(postData['image']): #if any are empty
             errors['required'] = "All fields required"
             return errors
         price = float(postData['price'])
@@ -51,7 +56,7 @@ class ProductManager(models.Manager):
         print(errors)
         return errors
 
-    def add_product(self, postData, imageFiles):
+    def add_product(self, postData):
         prod_cat_type = Product.objects.get_category_and_type(postData)
         try:
             category = Product_Category.objects.get(name=prod_cat_type['category'])
@@ -65,8 +70,7 @@ class ProductManager(models.Manager):
         except Product_Type.DoesNotExist:
             prod_type = Product_Type.objects.create(name=prod_cat_type['type'], category=category)
             print("making new type")
-        new_product = Product.objects.create(name=postData['prod_name'], price=postData['price'], desc=postData['desc'], product_type=prod_type, product_category=category)
-        Product_Image.objects.create(image=imageFiles['image_files'], product=new_product)
+        new_product = Product.objects.create(name=postData['prod_name'], price=postData['price'], desc=postData['desc'], image=postData['image'], product_type=prod_type, product_category=category)
         return
 
     def delete_product(self, id):
@@ -173,6 +177,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     desc = models.TextField(max_length=300)
+    image = models.TextField()
     inventory_count = models.IntegerField(default=200)
     quantity_sold = models.IntegerField(default=0)
     product_type = models.ForeignKey(Product_Type, on_delete=models.CASCADE, related_name="product")
@@ -180,13 +185,6 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = ProductManager()
-
-class Product_Image(models.Model):
-    image = models.ImageField(upload_to="uploads")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_images")
-    main = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
 class State(models.Model):
     name = models.CharField(max_length=60)
