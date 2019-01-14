@@ -53,23 +53,22 @@ class ProductManager(models.Manager):
         price = float(postData['price'])
         if price < 0.99:
             errors['little'] = "Price Field must be at least 1 dollar"
-        print(errors)
         return errors
 
     def add_product(self, postData):
         prod_cat_type = Product.objects.get_category_and_type(postData)
         try:
+            # old category
             category = Product_Category.objects.get(name=prod_cat_type['category'])
-            print("getting old category")
         except Product_Category.DoesNotExist:
+            # new category
             category = Product_Category.objects.create(name=prod_cat_type['category'])
-            print("making new category")
         try:
+            # old type
             prod_type = Product_Category.objects.get(name=prod_cat_type['category']).types.all().get(name=prod_cat_type['type'])
-            print("getting old type")
         except Product_Type.DoesNotExist:
+            #new type
             prod_type = Product_Type.objects.create(name=prod_cat_type['type'], category=category)
-            print("making new type")
         new_product = Product.objects.create(name=postData['prod_name'], price=postData['price'], desc=postData['desc'], image=postData['image'], product_type=prod_type, product_category=category)
         return
 
@@ -104,8 +103,6 @@ class OrderManager(models.Manager):
             total += item.total
         order.total = total
         order.save()
-        print(order.__dict__)
-        print(order.shopping_cart.values())
         return
 
 # manage shoppping cart

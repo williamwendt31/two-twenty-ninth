@@ -4,20 +4,16 @@
         <title>Shopping Cart</title>
         <meta charset="utf-8">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         {% load static %}
         <link type="text/css" rel="stylesheet" href="{% static 'css/materialize/css/materialize.css' %}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
         <link type="text/css" rel="stylesheet" href="{% static 'css/cartStyle.css' %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <style>
-            .errors {
-                color: red;
-            }
-        </style>
     </head>
     <body>
-        <div id="container">            
+        <div id="container">  
+            <!-- nav when on large screen -->          
             <ul id="nav-mobile" class="sidenav sidenav-fixed">
                 <a href="/">
                     <li class="logo">
@@ -58,125 +54,96 @@
                     </ul>
                 </li>
             </ul>
-            <div id="customer-info">
-                <table class="striped centered">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in shopping_cart %}
-                        <tr>
-                            <td>{{ item.product.name }}</td>
-                            <td>${{ item.product.price }}</td>
-                            <td>{{ item.quantity }} 
-                                <a href="/shopping-cart/remove-from-cart/{{ item.id }}" class="btn-small waves-effect waves-light red darken-4">
-                                    <i class="material-icons left">delete</i>
-                                </a>
-                            </td>
-                            <td>${{ item.total }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="total">
-                    <a class="btn waves-effect waves-light cyan darken-4" href="/">Continue Shopping
-                        <i class="material-icons left">chevron_left</i>
-                    </a>
-                    <span class="size">Total: ${{ cart_total }}</span>
-                </div>
-                <form action="/shopping-cart/process-customer-info" method="POST">
-                    {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }} errors"{% endif %}>{{ message }}</li>
+            <!-- nav when on small screen -->
+            <nav class="hide-on-large-only black">
+                <div class="nav-wrapper">
+                    <a href="/" class="brand-logo left">229th</a>
+                    <ul class="right">
+                        <li>
+                            <a id="cart" href="/shopping-cart" class="white-font">Shopping Cart ({{ shopping_cart.count }})</a>
+                        </li>
+                        {% for category in categories %}
+                        <li><a class="dropdown-trigger" href="#!" data-target="{{ category.name }}">{{ category.name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <ul id="{{ category.name }}" class="dropdown-content">
+                            <li><a href="/products/category/{{ category.id }}">All</a></li>
+                            {% for type in category.types.all %}
+                            <li><a href="/products/category/{{ category.id }}/type/{{ type.id }}">{{ type.name }} ({{ type.product.count }})</a></li>
+                            {% endfor %}
+                        </ul>
                         {% endfor %}
                     </ul>
-                    {% endif %}
-                    {% csrf_token %}
-                    <div id="error"></div>
-                    <h5>Shipping Information</h5>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <input value="{{ customer_shipping.first_name }}" name="s_first_name" id="s_first_name" type="text" class="validate">
-                            <label for="s_first_name">First Name</label>
-                        </div>
+                </div>
+            </nav>
+            <div id="customer-info" class="row">
+                <div class="col s12 m10 offset-m2">
+                    <table class="striped centered">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in shopping_cart %}
+                            <tr>
+                                <td>{{ item.product.name }}</td>
+                                <td>${{ item.product.price }}</td>
+                                <td>{{ item.quantity }} 
+                                    <a href="/shopping-cart/remove-from-cart/{{ item.id }}" class="btn-small waves-effect waves-light red darken-4">
+                                        <i class="material-icons left">delete</i>
+                                    </a>
+                                </td>
+                                <td>${{ item.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="total">
+                        <a class="btn waves-effect waves-light cyan darken-4" href="/">Continue Shopping
+                            <i class="material-icons left">chevron_left</i>
+                        </a>
+                        <span class="size">Total: ${{ cart_total }}</span>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <input value="{{ customer_shipping.last_name }}" name="s_last_name" id="s_last_name" type="text" class="validate">
-                            <label for="s_last_name">Last Name</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <input value="{{ customer_shipping.address.address }}" name="s_address" id="s_address" type="text" class="validate">
-                            <label for="s_address">Address</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <input value="{{ customer_shipping.address.city }} "name="s_city" id="s_city" type="text" class="validate">
-                            <label for="s_city">City</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <select name="s_state" id="s_state" class="validate">
-                                {% for state in states %}
-                                <option value="{{ state.name }}">{{ state.name }}</option>
-                                {% endfor %}
-                            </select>
-                            <label>State</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s7">
-                            <input value="{{ customer_shipping.address.zipcode }}" name="s_zipcode" id="s_zipcode" type="text" class="validate">
-                            <label for="s_zipcode">Zipcode</label>
-                        </div>
-                    </div>
-                    <h5>Billing Information</h5>
-                    <div class="row">
-                        <p>
-                            <label>
-                                <input type="checkbox" id="same" name="same"/>
-                                <span>Same as Shipping</span>
-                            </label>
-                        </p>
-                    </div>
-                    <fieldset id="billing_info">
+                    <form action="/shopping-cart/process-customer-info" method="POST">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }} errors"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% csrf_token %}
+                        <div id="error"></div>
+                        <h5>Shipping Information</h5>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <input value="{{ customer_billing.first_name }}" name="b_first_name" id="b_first_name" type="text" class="validate">
-                                <label for="b_first_name">First Name</label>
+                            <div class="input-field col s12 m9 l7">
+                                <input value="{{ customer_shipping.first_name }}" name="s_first_name" id="s_first_name" type="text" class="validate">
+                                <label for="s_first_name">First Name</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <input value="{{ customer_billing.last_name }}" name="b_last_name" id="b_last_name" type="text" class="validate">
-                                <label for="b_last_name">Last Name</label>
+                            <div class="input-field col s12 m9 l7">
+                                <input value="{{ customer_shipping.last_name }}" name="s_last_name" id="s_last_name" type="text" class="validate">
+                                <label for="s_last_name">Last Name</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <input  value="{{ customer_billing.address.address }}" name="b_address" id="b_address" type="text" class="validate">
-                                <label for="b_address">Address</label>
+                            <div class="input-field col s12 m9 l7">
+                                <input value="{{ customer_shipping.address.address }}" name="s_address" id="s_address" type="text" class="validate">
+                                <label for="s_address">Address</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <input value="{{ customer_billing.address.city }}" name="b_city" id="b_city" type="text" class="validate">
-                                <label for="b_city">City</label>
+                            <div class="input-field col s12 m9 l7">
+                                <input value="{{ customer_shipping.address.city }} "name="s_city" id="s_city" type="text" class="validate">
+                                <label for="s_city">City</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <select name="b_state" id="b_state" class="validate">
+                            <div class="input-field col s12 m9 l7">
+                                <select name="s_state" id="s_state" class="validate">
                                     {% for state in states %}
                                     <option value="{{ state.name }}">{{ state.name }}</option>
                                     {% endfor %}
@@ -185,18 +152,69 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s7">
-                                <input value="{{ customer_billing.address.zipcode }}" name="b_zipcode" id="b_zipcode" type="text" class="validate">
-                                <label for="b_zipcode">Zipcode</label>
+                            <div class="input-field col s12 m9 l7">
+                                <input value="{{ customer_shipping.address.zipcode }}" name="s_zipcode" id="s_zipcode" type="text" class="validate">
+                                <label for="s_zipcode">Zipcode</label>
                             </div>
                         </div>
-                    </fieldset>
-                    <div class="checkout">
-                        <button class="btn waves-effect waves-light cyan darken-4" type="submit">Checkout
-                            <i class="material-icons right">check</i>
-                        </button>
-                    </div>
-                </form>
+                        <h5>Billing Information</h5>
+                        <div class="row">
+                            <p>
+                                <label>
+                                    <input type="checkbox" id="same" name="same"/>
+                                    <span>Same as Shipping</span>
+                                </label>
+                            </p>
+                        </div>
+                        <fieldset id="billing_info">
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <input value="{{ customer_billing.first_name }}" name="b_first_name" id="b_first_name" type="text" class="validate">
+                                    <label for="b_first_name">First Name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <input value="{{ customer_billing.last_name }}" name="b_last_name" id="b_last_name" type="text" class="validate">
+                                    <label for="b_last_name">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <input  value="{{ customer_billing.address.address }}" name="b_address" id="b_address" type="text" class="validate">
+                                    <label for="b_address">Address</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <input value="{{ customer_billing.address.city }}" name="b_city" id="b_city" type="text" class="validate">
+                                    <label for="b_city">City</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <select name="b_state" id="b_state" class="validate">
+                                        {% for state in states %}
+                                        <option value="{{ state.name }}">{{ state.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <label>State</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m9 l7">
+                                    <input value="{{ customer_billing.address.zipcode }}" name="b_zipcode" id="b_zipcode" type="text" class="validate">
+                                    <label for="b_zipcode">Zipcode</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="checkout">
+                            <button class="btn waves-effect waves-light cyan darken-4" type="submit">Checkout
+                                <i class="material-icons right">check</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="{% static 'css/materialize/js/materialize.js' %}"></script>

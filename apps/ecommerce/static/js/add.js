@@ -2,7 +2,6 @@ function fetchTypes(category) {
     $.ajax({
         url: `add/types/${category}`,
         success: function(serverResponse) {
-            console.log(serverResponse)
             if (serverResponse != "") {
                 let output = "<option value=''>Choose a Type</option>"
                 for (let i = 0; i < serverResponse.length; i++) {
@@ -26,8 +25,9 @@ $('#prod_category').change(function() {
         $('#prod_type').prop({
             "disabled": false
         });
+
         fetchTypes($(this).val());
-        $('select').formSelect();
+
         $('#new_category').prop({
             "disabled": true
         });
@@ -36,23 +36,30 @@ $('#prod_category').change(function() {
         $('#prod_type').prop({
             "disabled": true
         });
-        $('select').formSelect();
         $('#new_category').prop({
             "disabled": false
         });
+        $('#new_type').prop({
+            "disabled": false
+        });
     }
+
+    $('select').formSelect();
 });
 
 $('#prod_type').change(function() {
-    if ($(this).val() !== "") {
+    console.log($(this).val());
+    if ($(this).val() !== "") {  //if selected type is valid
         $('#new_type').prop({
             "disabled": true
         });
     }
     else {
-        $('#new_typed').prop({
+        $('#new_type').prop({
             "disabled": false
         });
     }
+
+    $('select').formSelect();
 });
 

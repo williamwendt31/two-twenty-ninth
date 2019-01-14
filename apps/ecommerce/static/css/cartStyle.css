@@ -1,5 +1,4 @@
 #customer-info {
-    margin-left: 17rem;
     margin-top: 2rem;
 }
 table {
@@ -17,7 +16,7 @@ table {
 form {
     width: 80%;
     margin: 0 auto;
-    margin-top: 5rem;
+    margin-top: 7rem;
 }
 fieldset {
     border: none !important;
@@ -29,4 +28,8 @@ fieldset {
     margin-left: 1rem;
     padding-left: 0.5rem !important;
     padding-right: 0 !important;
+}
+
+.errors {
+    color: red;
 }

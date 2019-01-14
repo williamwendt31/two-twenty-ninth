@@ -1,5 +1,4 @@
 #product-show {
-    margin-left: 16rem;
     margin-top: 2rem;
 }
 .product {
@@ -8,7 +7,6 @@
     margin: 3rem;
 }
 #left {
-    margin-left: 2rem;
     margin-top: 2rem;
 }
 #back {
@@ -22,14 +20,15 @@
 #product_info {
     text-align: center;
     margin-top: 1rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
     display: inline-block;
 }
+
 #right {
     display: inline-block;
     vertical-align: top;
-    margin-left: 10rem;
-    margin-top: 3rem;
+    margin-left: 5rem;
+    margin-top: 5rem;
 }
 .desc {
     font-size: 1.3em;
@@ -37,10 +36,11 @@
 select#product_quantity {
     width: 3rem !important;
 }
-#add_cart {
+
+.add_cart {
     margin-top: 1rem;
 }
 .description {
-    height: 26rem;
-    width: 28rem;
+    height: 10rem;
+    width: 20rem;
 }

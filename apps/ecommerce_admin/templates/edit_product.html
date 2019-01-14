@@ -9,11 +9,6 @@
         <link type="text/css" rel="stylesheet" href="{% static 'css/materialize/css/materialize.css' %}"  media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <style>
-            #wrapper {
-                width: 65rem;
-                margin: 0 auto;
-            }
-
             .errors {
                 color: red;
             }
@@ -21,84 +16,88 @@
     </head>
     <body>
         <div id="wrapper">
-            <h5>Edit a Product</h5>
-            <form action="/admin/process_edit" method="POST">
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }} errors"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% csrf_token %}
-                <div class="row">
-                    <div class="input-field col s7">
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <input name="prod_name" id="prod_name" type="text" class="validate" value="{{ product.name }}">
-                        <label for="prod_name">Product Name</label>
-                    </div>
-                    <div class="input-field col s5">
-                        <input type="number" step="0.01" name="price" id="price" value="{{ product.price }}">
-                        <label for="price">Price</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea name="desc" id="desc" class="materialize-textarea">{{ product.desc }}</textarea>
-                        <label for="desc">Description</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <select id="prod_category" name="prod_category">
-                            {% for category in categories %}
-                            {% if category.name == product.product_category.name %}
-                            <option value="{{ category.name }}" selected>{{ category.name }}</option>
-                            {% else %}
-                            <option value="{{ category.name }}">{{ category.name }}</option>
-                            {% endif %}
+            <div class="row">
+                <div class="col s12 m8 offset-m2 l6 offset-l3">
+                    <h5>Edit a Product</h5>
+                    <form action="/admin/process_edit" method="POST">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }} errors"{% endif %}>{{ message }}</li>
                             {% endfor %}
-                        </select>
-                        <label>Category</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select name="prod_type" id="prod_type">
-                            {% for type in product.product_category.types.all %}
-                            {% if type.name == product.product_type.name %}
-                            <option value="{{ type.name }}" selected>{{ type.name }}</option>
-                            {% else %}
-                            <option value="{{ type.name }}">{{ type.name }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                        <label>Type</label>
-                    </div>
+                        </ul>
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field col s7">
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <input name="prod_name" id="prod_name" type="text" class="validate" value="{{ product.name }}">
+                                <label for="prod_name">Product Name</label>
+                            </div>
+                            <div class="input-field col s5">
+                                <input type="number" step="0.01" name="price" id="price" value="{{ product.price }}">
+                                <label for="price">Price</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea name="desc" id="desc" class="materialize-textarea">{{ product.desc }}</textarea>
+                                <label for="desc">Description</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <select id="prod_category" name="prod_category">
+                                    {% for category in categories %}
+                                    {% if category.name == product.product_category.name %}
+                                    <option value="{{ category.name }}" selected>{{ category.name }}</option>
+                                    {% else %}
+                                    <option value="{{ category.name }}">{{ category.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <label>Category</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select name="prod_type" id="prod_type">
+                                    {% for type in product.product_category.types.all %}
+                                    {% if type.name == product.product_type.name %}
+                                    <option value="{{ type.name }}" selected>{{ type.name }}</option>
+                                    {% else %}
+                                    <option value="{{ type.name }}">{{ type.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <label>Type</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input name="new_category" id="new_category" type="text" class="validate">
+                                <label for="new_category">Add New Category</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input name="new_type" id="new_type" type="text" class="validate">
+                                <label for="new_type">Add New Type</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input name="image" id="image" type="text" class="validate" value="{{ product.image }}">
+                                <label for="image">Image Path: </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a class="btn waves-effect waves-light red darken-4" href="/admin/dashboard/products">Go Back
+                                <i class="material-icons left">chevron_left</i>
+                            </a>
+                            <button class="btn waves-effect waves-light cyan darken-4" type="submit">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input name="new_category" id="new_category" type="text" class="validate">
-                        <label for="new_category">Add New Category</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input name="new_type" id="new_type" type="text" class="validate">
-                        <label for="new_type">Add New Type</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input name="image" id="image" type="text" class="validate" value="{{ product.image }}">
-                        <label for="image">Image Path: </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <a class="btn waves-effect waves-light red darken-4" href="/admin/dashboard/products">Go Back
-                        <i class="material-icons left">chevron_left</i>
-                    </a>
-                    <button class="btn waves-effect waves-light cyan darken-4" type="submit">Submit
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
         <script type="text/javascript" src="{% static 'css/materialize/js/materialize.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/add.js' %}"></script>

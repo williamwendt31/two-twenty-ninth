@@ -4,21 +4,14 @@ a {
 .link {
     font-size: 1.2em !important;
 }
-#main-content {
-    margin: 0 2rem;
-}
 th {
     font-size: 1.2em;
 }
-.search {
-    width: 33%;
-    display: inline-block;
-    margin-left: 2rem;
-}
-#search {
-    border: none !important;
-    margin-left: 3rem;
-}
+
 .wi {
     width: 12rem !important;
+}
+
+#main-content {
+    margin-top: 2rem;
 }

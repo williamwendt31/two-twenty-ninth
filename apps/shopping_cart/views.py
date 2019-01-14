@@ -71,6 +71,10 @@ def checkout(request):
 
     categories = Product_Category.objects.all()
     cart =  Shopping_Cart.objects.filter(customer_id=request.session['customer_id'])
+    
+    if not len(cart):
+        return redirect('/shopping-cart')
+
     cart_total = 0
 
     for item in cart:
@@ -92,10 +96,8 @@ def checkout(request):
 def process_payment(request):
     if 'customer_id' not in request.session:
         request.session['customer_id'] = Shopping_Cart.objects.get_create_customer_id()
-    print(request.session['customer_id'])
     messages.success(request, "Congratulations your order has been placed! Order confirmation has been sent to your email")
     Product.objects.update_products(Shopping_Cart.objects.filter(customer_id=request.session['customer_id']))
     Order.objects.add_order(request.session['customer_id'], Shopping_Cart.objects.filter(customer_id=request.session['customer_id']))
     request.session['customer_id'] = Shopping_Cart.objects.get_create_customer_id()
-    print(request.session['customer_id'])
     return redirect('/')

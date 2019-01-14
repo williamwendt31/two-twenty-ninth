@@ -42,7 +42,6 @@ i.cart {
 }
 
 #main-content {
-    margin-left: 14rem;
     text-align: center;
 }
 .card-title {
@@ -58,8 +57,8 @@ select#sort {
     border: none !important;
 }
 .card {
-    height: 20% !important;
-    width: 15% !important;
+    height: 20rem !important;
+    width: 15rem !important;
     margin: 2rem !important;
     display: inline-block;
     border: none !important;

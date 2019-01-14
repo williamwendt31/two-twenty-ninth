@@ -53,7 +53,6 @@ def show_order(request, order_id):
     context = {
         "order": Order.objects.get(id=order_id)
     }
-    print(Order.objects.get(id=order_id).shopping_cart.values())
     return render(request, 'show_order.html', context)
 
 # edit product form

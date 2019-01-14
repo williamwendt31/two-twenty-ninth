@@ -1,9 +1,8 @@
 #wrapper {
-    width: 50rem;
     margin: 0 auto;
 }
 form {
-    margin-top: 15rem;
+    margin-top: 12rem;
 }
 input {
     margin-left: 0.7rem;
@@ -13,4 +12,8 @@ button {
 }
 .row {
     margin: 1.5rem 0;
+}
+
+.errors {
+    color: red;
 }

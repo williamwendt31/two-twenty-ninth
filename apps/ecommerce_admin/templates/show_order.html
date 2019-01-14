@@ -14,64 +14,56 @@
         <div id="wrapper">
             <nav>
                 <div class="nav-wrapper cyan darken-4">
-                    <a href="#" class="brand-logo">229th Dashboard</a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <a href="#" class="brand-logo hide-on-med-and-down">229th Dashboard</a>
+                    <ul id="nav-mobile" class="right">
                         <li class="active"><a class="link" href="/admin/dashboard/orders">Orders</a></li>
                         <li><a class="link" href="/admin/dashboard/products">Products</a></li>
                         <li><a class="linkwaves-effect waves-light btn red darken-4 " href="/admin/logout">Logout</a></li>
                     </ul>
                 </div>
             </nav>
-            <div id="top-bar">
-                <form class="search">
-                    <div class="input-field">
-                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                        <input id="search" type="search" required>
-                        <i class="material-icons">close</i>
-                    </div>
-                </form>
-                
-            </div>
             <div id="main-content">
-                <div id="left">
-                    <h6>Order ID: {{ order.id }}</h6>
-                    <h6>Customer Billing Info:</h6>
-                    <h6>Name: {{ order.billing_info.first_name }} {{ order.billing_info.last_name }}</h6>
-                    <h6>Address: {{ order.billing_info.address.address }}</h6>
-                    <h6>City: {{ order.billing_info.address.city }}</h6>
-                    <h6>State: {{ order.billing_info.address.state.name }}</h6>
-                    <h6>Zipcode: {{ order.billing_info.address.zipcode }}</h6>
-                    <br>
-                    <h6>Customer Shipping Info:</h6>
-                    <h6>Name: {{ order.shipping_info.first_name }} {{ order.shipping_info.last_name }}</h6>
-                    <h6>Address: {{ order.shipping_info.address.address }}</h6>
-                    <h6>City: {{ order.shipping_info.address.city }}</h6>
-                    <h6>State: {{ order.shipping_info.address.state.name }}</h6>
-                    <h6>Zipcode: {{ order.shipping_info.address.zipcode }}</h6>
-                </div>
-                <div id="right">
-                    <table class="striped centered">
-                        <thead>
-                            <tr>
-                                <th>Product ID</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for cart_item in order.shopping_cart.all %}
-                            <tr>
-                                <td>{{ cart_item.product.id }}</td>
-                                <td>{{ cart_item.product.name }}</td>
-                                <td>{{ cart_item.product.price }}</td>
-                                <td>{{ cart_item.quantity }}</td>
-                                <td>{{ cart_item.total }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col s12 m4 l3">
+                        <h6>Order ID: {{ order.id }}</h6>
+                        <h6>Customer Billing Info:</h6>
+                        <h6>Name: {{ order.billing_info.first_name }} {{ order.billing_info.last_name }}</h6>
+                        <h6>Address: {{ order.billing_info.address.address }}</h6>
+                        <h6>City: {{ order.billing_info.address.city }}</h6>
+                        <h6>State: {{ order.billing_info.address.state.name }}</h6>
+                        <h6>Zipcode: {{ order.billing_info.address.zipcode }}</h6>
+                        <br>
+                        <h6>Customer Shipping Info:</h6>
+                        <h6>Name: {{ order.shipping_info.first_name }} {{ order.shipping_info.last_name }}</h6>
+                        <h6>Address: {{ order.shipping_info.address.address }}</h6>
+                        <h6>City: {{ order.shipping_info.address.city }}</h6>
+                        <h6>State: {{ order.shipping_info.address.state.name }}</h6>
+                        <h6>Zipcode: {{ order.shipping_info.address.zipcode }}</h6>
+                    </div>
+                    <div class="col s12 m8 l9">
+                        <table class="striped centered">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in order.shopping_cart.all %}
+                                <tr>
+                                    <td>{{ cart_item.product.id }}</td>
+                                    <td>{{ cart_item.product.name }}</td>
+                                    <td>{{ cart_item.product.price }}</td>
+                                    <td>{{ cart_item.quantity }}</td>
+                                    <td>{{ cart_item.total }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
