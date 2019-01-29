@@ -1,1 +1,3 @@
-$('.order_status').formSelect();
+$(document).ready(function () {
+    $('.order_status').formSelect();
+});

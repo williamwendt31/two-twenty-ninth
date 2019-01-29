@@ -1,1 +1,3 @@
-$('#product_quantity').formSelect()
+$(document).ready(function () {
+    $('#product_quantity').formSelect()
+});

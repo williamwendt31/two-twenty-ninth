@@ -1,4 +1,5 @@
 function updateSearch(query) {
+    //retrieve ordered products
     $.ajax({
         url: `/search/${query}`,
         success: function(serverResponse) {
@@ -12,8 +13,11 @@ function updateSearch(query) {
     });
 }
 
-$('#search-input').change(function() {
-    if ($(this).val() !== "") {
-        updateSearch($(this).val());
-    }
+$(document).ready(function () {
+    //when sorting select is changed
+    $('#search-input').change(function() {
+        if ($(this).val() !== "") {
+            updateSearch($(this).val());
+        }
+    });
 });

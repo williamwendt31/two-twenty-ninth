@@ -32,4 +32,5 @@ fieldset {
 
 .errors {
     color: red;
+    font-size: 1.3em;
 }

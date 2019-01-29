@@ -79,3 +79,6 @@ select#sort {
     color: white !important;
 }
 
+.mob {
+    height: 10rem;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        {% load static %}
+        <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">        
+        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+    </head>
+    <body>
+         <!-- sidenav hidden on med--> 
+        <ul id="nav-mobile" class="sidenav sidenav-fixed">
+            <a href="/">
+                <li class="logo">
+                    <img id="logo" src="{% static 'images/logo.jpg' %}" alt="229 Logo" />
+                </li>
+            </a>
+            <li>
+                <div class="divider"></div>
+                <input type="text" class="search" placeholder="Search" id="search-input">
+                <i class="material-icons searching" id="searching">search</i>
+                <ul id="dropdown1" class="collapsible">
+                </ul>
+                <div class="divider"></div>
+            </li>
+            <li>
+                <ul class="collapsible">
+                    {% for category in categories %}
+                    <li>
+                        <div class="collapsible-header waves-effect waves-teal">
+                            <strong class="biggie">{{ category.name }}</strong>
+                        </div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="/products/category/{{ category.id }}">All</a></li>
+                                {% for type in category.types.all %}
+                                <li><a href="/products/category/{{ category.id }}/type/{{ type.id }}">{{ type.name }} ({{ type.product.count }})</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <div class="collapsible-header waves-effect waves-teal">
+                            <a id="cart" href="/shopping-cart">
+                                <i class="material-icons cart">shopping_cart</i>
+                                <strong class="biggie">Shopping Cart ({{ shopping_cart.count }})</strong>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- nav when med-->
+        <nav class="hide-on-large-only black mob">
+            <div class="nav-wrapper">
+                <ul>
+                    <li>
+                        <a id="cart" href="/shopping-cart" class="white-font">Shopping Cart ({{ shopping_cart.count }})</a>
+                    </li>
+                    {% for category in categories %}
+                    <li><a class="dropdown-trigger" href="#!" data-target="{{ category.name }}">{{ category.name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <ul id="{{ category.name }}" class="dropdown-content">
+                        <li><a href="/products/category/{{ category.id }}">All</a></li>
+                        {% for type in category.types.all %}
+                        <li><a href="/products/category/{{ category.id }}/type/{{ type.id }}">{{ type.name }} ({{ type.product.count }})</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+    </body>
+</html>

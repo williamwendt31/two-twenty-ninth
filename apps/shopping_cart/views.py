@@ -72,7 +72,9 @@ def checkout(request):
     categories = Product_Category.objects.all()
     cart =  Shopping_Cart.objects.filter(customer_id=request.session['customer_id'])
     
+    #if no items in cart return back to cart
     if not len(cart):
+        messages.error(request, "No items in cart")
         return redirect('/shopping-cart')
 
     cart_total = 0

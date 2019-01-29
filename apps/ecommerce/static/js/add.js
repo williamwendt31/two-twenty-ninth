@@ -1,4 +1,5 @@
 function fetchTypes(category) {
+    //retrieve all categories from database
     $.ajax({
         url: `add/types/${category}`,
         success: function(serverResponse) {
@@ -18,48 +19,53 @@ function fetchTypes(category) {
         }
     });
 }
-$('select').formSelect();
 
-$('#prod_category').change(function() {
-    if ($(this).val() !== "")  {
-        $('#prod_type').prop({
-            "disabled": false
-        });
-
-        fetchTypes($(this).val());
-
-        $('#new_category').prop({
-            "disabled": true
-        });
-    }
-    else {
-        $('#prod_type').prop({
-            "disabled": true
-        });
-        $('#new_category').prop({
-            "disabled": false
-        });
-        $('#new_type').prop({
-            "disabled": false
-        });
-    }
-
+$(document).ready(function () {
     $('select').formSelect();
-});
+    
+    // toggle between new or old options -- if chose old, disable new && vice versa
 
-$('#prod_type').change(function() {
-    console.log($(this).val());
-    if ($(this).val() !== "") {  //if selected type is valid
-        $('#new_type').prop({
-            "disabled": true
-        });
-    }
-    else {
-        $('#new_type').prop({
-            "disabled": false
-        });
-    }
-
-    $('select').formSelect();
+    $('#prod_category').change(function() {
+        if ($(this).val() !== "")  {
+            $('#prod_type').prop({
+                "disabled": false
+            });
+    
+            fetchTypes($(this).val());
+    
+            $('#new_category').prop({
+                "disabled": true
+            });
+        }
+        else {
+            $('#prod_type').prop({
+                "disabled": true
+            });
+            $('#new_category').prop({
+                "disabled": false
+            });
+            $('#new_type').prop({
+                "disabled": false
+            });
+        }
+    
+        $('select').formSelect();
+    });
+    
+    $('#prod_type').change(function() {
+        console.log($(this).val());
+        if ($(this).val() !== "") {  //if selected type is valid
+            $('#new_type').prop({
+                "disabled": true
+            });
+        }
+        else {
+            $('#new_type').prop({
+                "disabled": false
+            });
+        }
+    
+        $('select').formSelect();
+    });
 });
 
